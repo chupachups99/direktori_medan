@@ -68,7 +68,7 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-info" value="Tambah"/>
-                    <a class="btn btn-danger" href="http://localhost:3000/perusahaan/">Batal</a>
+                    <a class="btn btn-danger" href="https://direktori-kota-medan.onrender.com/perusahaan/">Batal</a>
                 </div>
             </form>
         </div>
@@ -85,7 +85,7 @@
     
     function fetch_data(parent_element, child_element, type)
     {
-        fetch('http://localhost:3000/perusahaan/get_data?type='+type+'&parent_value='+parent_element.value+'').then(function(response){
+        fetch('https://direktori-kota-medan.onrender.com/perusahaan/get_data?type='+type+'&parent_value='+parent_element.value+'').then(function(response){
             return response.json();
         }).then(function(responseData){
     
