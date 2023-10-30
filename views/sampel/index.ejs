@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      body{
+      background-position:center;
+      background-image: url('http://localhost:3000/gedung.jpeg');
+      background-attachment: fixed;   
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+    </style>
+</head>
+
+<body style="margin-top:0px;">
+    <% if (messages.success) { %>
+    <div class="alert alert-success" role="alert"><%- messages.success %></div>
+    <% } %>
+
+    <% if (messages.error) { %>
+    <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+    <div style="background-color:cornflowerblue;display:flex;margin-bottom:10px;width:100%;height:auto;background:linear-gradient(to bottom, #0082D6 0%, #00467A 100%);">
+      <table style="width:100%">
+        <tr>
+          <td rowspan="2">
+            <img src= "http://localhost:3000/Header-Frontend-Besar-ind.png">
+          </td>
+          <td style="text-align:right;width:100%;padding-right:2%;">
+        
+            <a style="color: white;margin:10px" href="http://localhost:3000/perusahaan/">Direktori</a>
+            <a style="color: white;margin:10px" href="http://localhost:3000/survei/">Survei</a>
+            <a style="color: white;margin:10px" href="http://localhost:3000/arsip/">Arsip</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:right;width:100%;padding-right:2%">
+            <h1 style="color: white;margin-left:20px;">Sampel</h1>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="margin:20px">
+        <input style="width:90%" type="text" id="myInput" placeholder="Cari Sampel..">
+        <button class="btn btn-warning edit" onclick="myFunction()">Cari</button>
+    </div>
+    <div style="margin:20px;">
+      <label style="font-weight: bold;margin-bottom: 0px;">Pilih Survei</label>
+      <br>
+      <a style="font-size:12px;text-decoration:underline;" onclick="checkall()">Select all</a>
+      <a style="font-size:12px;text-decoration:underline;" onclick="clearall()">Clear all</a>
+      <div style="border:2px solid #ccc; width:300px; background-color: white; height: 100px; overflow-y: scroll;">
+          <% for(var n = 0; n < survei.length;n++) {%>
+          <input type="checkbox" name="survei" value="<%=survei[n].survey %>" checked="true" onchange="filter();"> <%=survei[n].survey %> <br/>
+          <% } %>
+      </div>
+      <br>
+    </div>
+ 
+
+    <div class="card" style="margin:20px;"> 
+        <div class="card-header">
+            <ul class="nav nav-pills w-100">
+                <li class="nav-pill active">
+                    <a class="nav-link">Sampel</a>
+                </li>
+            </ul>
+        </div>
+       
+    <div class="card-body">        
+        <% if(data.length) { %>
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col" style="font-size:14px;text-align: center;">No.</th>
+                    <th scope="col" style="font-size:14px;text-align: center">Nama Usaha</th>
+                    <th scope="col" style="font-size:14px;text-align: center"> Alamat</th>
+                    <th scope="col" style="font-size:14px;text-align: center"> Status</th>
+                    <th scope="col" style="font-size:14px;text-align: center">Survei</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(var i = 0; i< data.length; i++) { %>
+                <tr>
+                    <th scope="row" style="font-size:12px"><%= (i+1) %></th>
+                    <td style="font-size:12px"><%= data[i].nama%></td>
+                    <td style="font-size:12px"><%= data[i].alamat%></td>
+                    <td style="font-size:12px"><%= data[i].status%></td>
+                    <td style="font-size:12px"><%= data[i].nama_survei %></td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <% } %>
+        
+        <!-- if result is empty -->
+        <% if(!data.length) { %>
+            <p class="text-center">Belum ada sampel!</p>
+        <% } %>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue,show1,show2,show3,show4,show;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+    
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        kecamatan = tr[i].getElementsByTagName("td")[0];
+        kelurahan = tr[i].getElementsByTagName("td")[1]; 
+     
+        show=0;
+        if(kecamatan) {
+          txtValue = kecamatan.textContent || kecamatan.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            show3 = 0; 
+          }
+          else {
+            show3 = 1;
+          }
+        }
+        if(kelurahan) {
+          txtValue = kelurahan.textContent || kelurahan.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            show4 = 0; 
+          }
+          else {
+            show4 = 1;
+          }
+        }
+       
+        show = show3*show4;
+        if(show==0){
+            tr[i].style.display = "";
+        }
+        else{
+            tr[i].style.display = "none";
+        }
+
+      }
+    }
+    function filter(){
+        var survei = document.getElementsByName("survei");
+        var list = [];
+        for(var i=0; i<survei.length;i++){
+            if(survei[i].checked){
+                list.push(survei[i].value);
+            }
+        }  
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+      
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        baris = tr[i].getElementsByTagName("td")[3];
+        if(list.includes(baris.innerHTML)){
+            tr[i].style.display = "";
+        }
+        else{
+            tr[i].style.display = "none";
+        }
+      }
+    }
+    function checkall(){
+        var survei = document.getElementsByName("survei");
+        for(var i=0; i<survei.length;i++){
+            survei[i].checked=true;
+            filter();
+        } 
+    }
+    function clearall(){
+        var survei = document.getElementsByName("survei");
+        for(var i=0; i<survei.length;i++){
+            survei[i].checked=false;
+            filter();
+        } 
+    }
+</script>

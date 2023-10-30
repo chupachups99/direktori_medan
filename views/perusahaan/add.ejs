@@ -1,0 +1,113 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Edit User</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body class="container" style="margin-top: 50px;">
+	<% if (messages.error) { %>
+	<div class="alert alert-danger" role="alert"><%- messages.error %></div>
+	<% } %>
+    <div class="card"> 
+    	<div class="card-header">
+			Tambah Perusahaan
+		</div>
+        <div class="card-body">
+            <form action="/perusahaan/add/" method="post">
+                <div class="form-group">
+                    <label style="font-weight: bold;">ID SBR :</label>
+                    <input type="text" class="form-control" name="id_sbr" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Nama :</label>
+                    <input type="text" class="form-control" name="nama"  autocomplete="off" style="text-transform:uppercase" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Kecamatan :</label>
+                    <select name="kecamatan" id="kecamatan" class="form-control">
+                        <% for(var count = 0; count < wilayah_data.length; count++) { %>
+                            <option value="<%= wilayah_data[count].Kec %>"><%= "["+wilayah_data[count].Kec+"] "+ wilayah_data[count].Nama_Kec %></option>
+                        <%} %>
+                    </select>
+                </div>
+                <div class="form-group">
+                <label style="font-weight: bold;">Kelurahan :</label>
+                <select name="kelurahan" id="kelurahan" class="form-control">
+                </select>
+                </div>
+				<div class="form-group">
+                    <label style="font-weight: bold;">Alamat :</label>
+                    <input type="text" class="form-control" name="alamat" value="" autocomplete="off" style="text-transform:uppercase">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Kontak :</label>
+                    <input type="text" class="form-control" name="kontak" value="" autocomplete="off" style="text-transform:uppercase">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Pemilik :</label>
+                    <input type="text" class="form-control" name="pemilik" value="" autocomplete="off" style="text-transform:uppercase">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Status :</label>
+                    <p>&nbsp;1.Aktif&nbsp;&nbsp;&nbsp;2.Tidak ditemukan&nbsp;&nbsp;&nbsp;3.Hilang&nbsp;&nbsp;&nbsp;4.Lupa</p>
+                    <input type="number" min="1" max="4" class="form-control" name="status" value="" autocomplete="off">
+                </div>
+              
+                <div class="form-group">
+                    <label style="font-weight: bold;">KBLI :</label>
+                    <input type="text" maxlength="5" pattern="\d*" class="form-control" name="kbli" value="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Kategori :</label>
+                    <input type="text" maxlength="1" style="text-transform:uppercase" class="form-control" name="kategori" pattern="[A-Z]" value="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Keterangan :</label>
+                    <input type="text" style="text-transform:uppercase" class="form-control" name="keterangan" value="" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-info" value="Tambah"/>
+                    <a class="btn btn-danger" href="http://localhost:3000/perusahaan/">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    
+</body>
+</html>
+<script>
+     function _(element)
+    {
+        return document.getElementById(element);
+    }
+    
+    function fetch_data(parent_element, child_element, type)
+    {
+        fetch('http://localhost:3000/perusahaan/get_data?type='+type+'&parent_value='+parent_element.value+'').then(function(response){
+            return response.json();
+        }).then(function(responseData){
+    
+            var html = '';
+    
+            for(var count = 0; count < responseData.length; count++){
+                let text = responseData[count];
+                 let pattern = "[\\d]+";
+                 let result = text.match(pattern);
+                    html += '<option value="'+result+'">'+responseData[count]+'</option>';
+                
+            }
+    
+            child_element.innerHTML = html;
+        });
+    }
+    
+    _('kecamatan').onclick = function(){
+    
+        fetch_data(_('kecamatan'), _('kelurahan'), 'load_kel');
+    
+    };
+
+    
+</script>

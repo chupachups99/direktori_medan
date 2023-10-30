@@ -1,0 +1,134 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body{
+        background-position:center;
+        background-image: url('http://localhost:3000/gedung.jpeg');
+        background-attachment: fixed;   
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
+      </style>
+</head>
+<body style="margin-top:0px;">
+    <% if (messages.success) { %>
+    <div class="alert alert-success" role="alert"><%- messages.success %></div>
+    <% } %>
+
+    <% if (messages.error) { %>
+    <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+    <% } %>
+  
+    <div style="background-color:cornflowerblue;display:flex;margin-bottom:10px;width:100%;height:auto;background:linear-gradient(to bottom, #0082D6 0%, #00467A 100%);">
+    <table style="width:100%">
+      <tr>
+        <td rowspan="2">
+          <img src= "http://localhost:3000/Header-Frontend-Besar-ind.png">
+        </td>
+        <td style="text-align:right;width:100%;padding-right:2%;">
+            <a style="color: white;margin:10px" href="http://localhost:3000/perusahaan/">Direktori</a>
+            <a style="color: white;margin:10px" href="http://localhost:3000/sampel/">Sampel</a>
+            <a style="color: white;margin:10px" href="http://localhost:3000/arsip/">Arsip</a>
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align:right;width:100%;padding-right:2%">
+          <h1 style="color: white;margin-left:20px;">Master Survei</h1>
+        </td>
+      </tr>
+    </table>
+  </div>
+    <div class="card" style="margin:20px"> 
+        <div class="card-header">
+            <ul class="nav nav-pills w-100">
+                <li class="nav-pill active">
+                    <a class="nav-link">Survei</a>
+                </li>
+                <li class="nav-pill ml-auto">
+                    <a class="nav-link active" href="/survei/add">Tambah Survei</a>
+                </li>
+            </ul>
+        </div>
+    <div class="card-body">        
+        <% if(data.length) { %>
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col" style="font-size:16px;text-align:center;">No</th>
+                    <th scope="col" style="font-size:16px;text-align:center">Nama Survei</th>
+                    <th scope="col" style="font-size:16px;text-align:center">Tahun</th>
+                    <th width="200px" style="font-size:16px;text-align: center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% for(var i = 0; i< data.length; i++) { %>
+                <tr>
+                    <th scope="row" style="font-size:14px;text-align: center;"><%= (i+1) %></th>
+                    <td style="font-size:14px;text-align: center;"><%= data[i].survey%></td>
+                    <td style="font-size:14px;text-align: center;"><%= data[i].tahun%></td>
+                    <td style="font-size:14px;width:300px; text-align:center;">
+                        <a class="btn btn-warning edit" href="../survei/daftarsampel/<%=data[i].id_survei%>">Daftar Sampel</a>
+                        <a class="btn btn-danger delete" style="text-align: center;" onclick="return alert('Hapus survei dari master?')" href="../survei/delete/<%=data[i].id_survei%>">Hapus</a> 
+                    </td>
+                </tr>
+            <% } %>
+            </tbody>
+        </table>
+        <% } %>
+        
+        <!-- if result is empty -->
+        <% if(!data.length) { %>
+            <p class="text-center">No Survei is found!</p>
+        <% } %>
+        </div>
+    </div>
+</body>
+</html>
+<script>    
+    function myFunction() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue,show1,show2,show3,show4,show;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+    
+      // Loop through all table rows, and hide those who don't match the search query
+      for (i = 1; i < tr.length; i++) {
+        kecamatan = tr[i].getElementsByTagName("td")[0];
+        kelurahan = tr[i].getElementsByTagName("td")[1]; 
+
+        show=0;
+        if(kecamatan) {
+          txtValue = kecamatan.textContent || kecamatan.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            show3 = 0; 
+          }
+          else {
+            show3 = 1;
+          }
+        }
+        if(kelurahan) {
+          txtValue = kelurahan.textContent || kelurahan.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            show4 = 0; 
+          }
+          else {
+            show4 = 1;
+          }
+        }
+       
+        show = show3*show4;
+        if(show==0){
+            tr[i].style.display = "";
+        }
+        else{
+            tr[i].style.display = "none";
+        }
+
+      }
+    }
+    </script>

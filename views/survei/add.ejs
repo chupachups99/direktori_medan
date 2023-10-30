@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Edit User</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body class="container" style="margin-top: 50px;">
+	<% if (messages.error) { %>
+	<div class="alert alert-danger" role="alert"><%- messages.error %></div>
+	<% } %>
+    <div class="card"> 
+    	<div class="card-header">
+			Tambah Survei
+		</div>
+        <div class="card-body">
+            <form action="/survei/add/" method="post">
+             
+                <div class="form-group">
+                    <label style="font-weight: bold;">Nama Survei :</label>
+                    <input type="text" class="form-control" name="survey"  autocomplete="off" style="text-transform:uppercase" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Tahun Survei :</label>
+                    <input type="text" class="form-control" name="tahun" autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-info" value="Tambah"/>
+                    <a class="btn btn-danger" href="http://localhost:3000/perusahaan/">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    
+</body>
+</html>
